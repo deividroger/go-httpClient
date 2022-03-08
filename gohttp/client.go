@@ -1,23 +1,46 @@
 package gohttp
 
-import "net/http"
+import (
+	"net/http"
+	"time"
+)
 
 type httpClient struct {
+	client *http.Client
+
+	maxIdleConnection int
+	connectionTimeout time.Duration
+	responseTimeout   time.Duration
+
 	Headers http.Header
 }
 
 func New() HttpClient {
-	client := &httpClient{}
-	return client
+	httpClient := &httpClient{}
+	return httpClient
 }
 
 type HttpClient interface {
+	SetConnectionTimeout(timeout time.Duration)
+	SetResponseTimeout(timeout time.Duration)
+	SetMaxIdleConnections(i int)
+
 	Get(url string, headers http.Header) (*http.Response, error)
 	SetHeaders(headers http.Header)
 	Post(url string, headers http.Header, body interface{}) (*http.Response, error)
 	Put(url string, headers http.Header, body interface{}) (*http.Response, error)
 	Patch(url string, headers http.Header, body interface{}) (*http.Response, error)
 	Delete(url string, headers http.Header) (*http.Response, error)
+}
+
+func (c *httpClient) SetConnectionTimeout(timeout time.Duration) {
+	c.connectionTimeout = timeout
+}
+func (c *httpClient) SetResponseTimeout(timeout time.Duration) {
+	c.responseTimeout = timeout
+}
+func (c *httpClient) SetMaxIdleConnections(i int) {
+	c.maxIdleConnection = i
 }
 
 func (c *httpClient) SetHeaders(headers http.Header) {
