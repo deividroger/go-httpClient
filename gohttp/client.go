@@ -12,44 +12,17 @@ type httpClient struct {
 	connectionTimeout time.Duration
 	responseTimeout   time.Duration
 	disableTimeouts   bool
-	Headers           http.Header
+
+	headers http.Header
 }
 
-func New() HttpClient {
-	httpClient := &httpClient{}
-	return httpClient
-}
-
-type HttpClient interface {
-	SetConnectionTimeout(timeout time.Duration)
-	SetResponseTimeout(timeout time.Duration)
-	SetMaxIdleConnections(i int)
-	DisableTimeouts(disable bool)
-
+type Client interface {
 	Get(url string, headers http.Header) (*http.Response, error)
-	SetHeaders(headers http.Header)
+
 	Post(url string, headers http.Header, body interface{}) (*http.Response, error)
 	Put(url string, headers http.Header, body interface{}) (*http.Response, error)
 	Patch(url string, headers http.Header, body interface{}) (*http.Response, error)
 	Delete(url string, headers http.Header) (*http.Response, error)
-}
-
-func (c *httpClient) SetHeaders(headers http.Header) {
-	c.Headers = headers
-}
-
-func (c *httpClient) SetConnectionTimeout(timeout time.Duration) {
-	c.connectionTimeout = timeout
-}
-func (c *httpClient) SetResponseTimeout(timeout time.Duration) {
-	c.responseTimeout = timeout
-}
-func (c *httpClient) SetMaxIdleConnections(i int) {
-	c.maxIdleConnection = i
-}
-
-func (c *httpClient) DisableTimeouts(disable bool) {
-	c.disableTimeouts = disable
 }
 
 func (c *httpClient) Get(url string, headers http.Header) (*http.Response, error) {
