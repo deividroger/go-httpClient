@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 
 	"github.com/deividroger/go-httpClient/gohttp"
 )
@@ -15,8 +14,6 @@ func getGitHubClient() gohttp.Client {
 
 	client := gohttp.NewBuilder().
 		DisableTimeouts(true).
-		DisableTimeouts(true).
-		SetConnectionTimeout(10).
 		Build()
 
 	return client
@@ -39,26 +36,38 @@ func getUrls() {
 		panic(err)
 	}
 
-	fmt.Println(response.StatusCode)
+	fmt.Println(response.Status())
+	fmt.Println(response.StatusCode())
+	fmt.Println(response.String())
 
-	bytes, _ := ioutil.ReadAll(response.Body)
+	// var user User
+	// if err := response.UnMarshalJson(&user); err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println(user.FirstName)
 
-	fmt.Println(string(bytes))
+	//Using default respone
 
-}
+	// fmt.Println(response.StatusCode)
 
-func createUser(user User) {
+	// bytes, _ := ioutil.ReadAll(response.Body)
 
-	response, err := httpclient.Post("https://api.github.com", nil, user)
-
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(response.StatusCode)
-
-	bytes, _ := ioutil.ReadAll(response.Body)
-
-	fmt.Println(string(bytes))
+	// fmt.Println(string(bytes))
 
 }
+
+// func createUser(user User) {
+
+// 	response, err := httpclient.Post("https://api.github.com", nil, user)
+
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	fmt.Println(response.StatusCode)
+
+// 	bytes, _ := ioutil.ReadAll(response.Body)
+
+// 	fmt.Println(string(bytes))
+
+// }
