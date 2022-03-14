@@ -17,7 +17,6 @@ func getGitHubClient() gohttp.Client {
 		DisableTimeouts(true).
 		DisableTimeouts(true).
 		SetConnectionTimeout(10).
-		SetHeaders(nil).
 		Build()
 
 	return client
