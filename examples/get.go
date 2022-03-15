@@ -1,11 +1,13 @@
 package examples
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Endpoints struct {
-	CurrentUser       string `json:"current_user_url"`
+	CurrentUserUrl    string `json:"current_user_url"`
 	AuthorizationsUrl string `json:"authorizations_url"`
-	RespositoryUrl    string `json:"repository_url"`
+	RepositoryUrl     string `json:"repository_url"`
 }
 
 func GetEndpoints() (*Endpoints, error) {
@@ -25,9 +27,7 @@ func GetEndpoints() (*Endpoints, error) {
 		return nil, err
 	}
 
-	fmt.Println(fmt.Sprintf("Repositories URL: %s", endpoints.RespositoryUrl))
-	fmt.Println(fmt.Sprintf("Authorizations URL: %s", endpoints.AuthorizationsUrl))
-	fmt.Println(fmt.Sprintf("CurrentUser: %s", endpoints.CurrentUser))
+	fmt.Println(fmt.Sprintf("Repository URL: %s", endpoints.RepositoryUrl))
 
 	return &endpoints, nil
 }

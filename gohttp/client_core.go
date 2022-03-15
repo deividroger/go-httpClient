@@ -21,9 +21,9 @@ const (
 
 func (c *httpClient) getRequestBody(contentType string, body interface{}) ([]byte, error) {
 
-	if body == nil {
-		return nil, nil
-	}
+	// if body == nil {
+	// 	return nil, nil
+	// }
 
 	switch strings.ToLower(contentType) {
 	case "application/json":
@@ -44,6 +44,10 @@ func (c *httpClient) do(method string, url string, headers http.Header, body int
 
 	if err != nil {
 		return nil, err
+	}
+
+	if mock := mockupServer.getMock(method, url, string(requestBody)); mock != nil {
+		return mock.GetResponse()
 	}
 
 	request, err := http.NewRequest(method, url, bytes.NewBuffer(requestBody))
